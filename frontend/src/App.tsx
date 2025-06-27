@@ -26,7 +26,9 @@ function App() {
     const { data, error } = await supabase
       .from('testimonials')
       .select('*');
-    if (data) {
+    if (error) {
+      console.error('Error fetching testimonials:', error);
+    } else if (data) {
       setTestimonials(data);
     }
   };
@@ -38,7 +40,7 @@ function App() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const { data, error } = await supabase
+    const { error } = await supabase
       .from('consultation_requests')
       .insert([formValues]);
     if (error) {
